@@ -184,10 +184,37 @@ def _(mo):
     return
 
 
-@app.cell
-def _():
-    # your work here
-    ...
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    So we know that the output matrix will have $BF$ elements, where each element takes a dot product to produce. So I'm guessing
+
+    $$
+    \text{Computation FLOPs} = BF(2D-1)
+    $$
+
+    which looks weird, cause it's a higher dimensional matmul.
+
+
+    $$
+    \begin{align*}
+    I &= \frac{\text{Computation FLOPs}}{\text{Communication Bytes}} \\
+    &= \frac{BF(2D-1)}{BD + BDF + BF}
+    \end{align*}
+    $$
+
+    we can simplify FLOPs to $2BDF$ and assume $B << D, B << F$
+
+    $$
+    \begin{align*}
+    I &= \frac{2BDF}{BD + BDF + BF} \\
+    &= \frac{2BDF}{BDF} \\
+    &= 2
+    \end{align*}
+    $$
+
+    HBM scales at the same rate as compute. We'll always be HBM bound.
+    """)
     return
 
 
